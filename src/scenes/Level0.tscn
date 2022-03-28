@@ -42,7 +42,7 @@ points = PoolVector2Array( 16, 15.9362, 0.00997543, 15.9362, 0, 0.00997543, 16, 
 [node name="Level0" type="Node2D"]
 
 [node name="player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 94, 26 )
+position = Vector2( 66, 96 )
 script = ExtResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]

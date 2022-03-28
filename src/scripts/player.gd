@@ -3,6 +3,7 @@ extends KinematicBody2D
 export var gravity = 7
 var vspeed = Vector2.ZERO
 var fist = null
+var fist_scn = preload("res://scenes/fist.tscn")
 var face = 1
 export var player_speed = 150
 export var player_jump_speed = 250
@@ -11,12 +12,10 @@ export var hooking = false
 export var jumping = false
 
 func _ready():
-	fist = get_node("fist")
-	fist.visible = false
+	pass
 
 func _physics_process(delta):
 	var moving = false
-	
 	vspeed.y += gravity
 	
 	if !attacking and !hooking and Input.is_action_pressed("move_left"):
@@ -30,17 +29,11 @@ func _physics_process(delta):
 		face = 1
 		moving = true
 		
-	if !attacking and Input.is_action_pressed("attack"):
-		attacking = true 
-		fist.face = face
-		fist.position.x = $player_sprite.position.x + (12 * face)
-		fist.visible = true
+	if Input.is_action_pressed("attack"):
+		Attack()
 	
-	if !hooking and Input.is_action_pressed("hook"):
-		hooking = true
-		fist.face = face
-		fist.position.x = $player_sprite.position.x + (12 * face)
-		fist.visible = true
+	if Input.is_action_pressed("hook"):
+		Hook()
 		
 	if jumping and is_on_floor():
 		jumping = false
@@ -56,6 +49,7 @@ func _physics_process(delta):
 	else:
 		if attacking:
 			$player_sprite.animation = "attackhook"
+			update()
 		elif hooking:
 			$player_sprite.animation = "attackhook"
 		else:
@@ -65,10 +59,18 @@ func _physics_process(delta):
 	
 	vspeed = move_and_slide(vspeed, Vector2.UP)
 
-func process_status():
-	if attacking:
-		pass
-	elif hooking:
-		pass
-	else:
-		pass
+func Attack():
+	if !attacking:
+		attacking = true
+		fist = fist_scn.instance()
+		add_child(fist)
+		fist.set_position(Vector2(12 * face, -5))
+		fist.init(face)
+
+
+func Hook():
+	pass
+
+func _draw():
+	if fist:
+		draw_line(Vector2(12 * face, -5), fist.position,  Color(255, 255, 255), 1)
