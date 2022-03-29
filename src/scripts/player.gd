@@ -48,14 +48,14 @@ func _physics_process(delta):
 	elif moving:
 		$player_sprite.animation = "walking"
 	else:
-		if attacking:
-			$player_sprite.animation = "attackhook"
-			update()
-		elif hooking or hook_hook_return:
-			$player_sprite.animation = "attackhook"
-			update()
-		else:
-			$player_sprite.animation = "default"
+		$player_sprite.animation = "default"
+		
+	if attacking:
+		$player_sprite.animation = "attackhook"
+		update()
+	elif hooking or hook_hook_return:
+		$player_sprite.animation = "attackhook"
+		update()
 			
 	$player_sprite.playing = moving
 	
