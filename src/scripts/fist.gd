@@ -6,15 +6,16 @@ var mode = ""
 var action = ""
 var timer = 0
 var parent = null
-export var _speed = 2000
+export var _speed = 2300
 
-func init(_face, _mode):
-	parent = get_parent()
+func init(_face, _mode, _parent):
+	parent = _parent
 	action = "goto"
 	timer = 0.3
 	face = _face
 	mode = _mode
 	InitialPos = position
+	$sprite.set_scale(Vector2(face, 1))
 
 func _physics_process(delta):
 	if action == "goto":
@@ -32,15 +33,19 @@ func _physics_process(delta):
 			vspeed = move_and_slide(vspeed, Vector2.LEFT)
 	
 	if action == "goto":
-		if (timer <= 0 or is_on_ceiling() or is_on_floor() or is_on_ceiling()):
+		if (timer <= 0 or is_on_ceiling() or is_on_floor() or is_on_wall()):
 			if mode == "attack":
 				if action == "goto":
 					vspeed = Vector2.ZERO
 					action = "return"
 			else:
-				if action == "goto":
+				if timer <= 0:
 					vspeed = Vector2.ZERO
 					action = "return"
+				else:
+					if action == "goto":
+						vspeed = Vector2.ZERO
+						action = "stay"
 	elif action == "return":
 		if position.distance_to(InitialPos) <= 5:
 			if mode == "attack":
@@ -49,4 +54,6 @@ func _physics_process(delta):
 			else:
 				vspeed = Vector2.ZERO
 				parent.FinishHook()
+	elif action == "stay":
+		parent.GotoHook(face, to_global(position))
 
