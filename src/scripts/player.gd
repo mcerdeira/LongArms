@@ -10,6 +10,7 @@ export var player_jump_speed = 250
 export var attacking = false
 export var hooking = false
 export var jumping = false
+export var hook_hook_return = false
 
 func _ready():
 	pass
@@ -50,26 +51,47 @@ func _physics_process(delta):
 		if attacking:
 			$player_sprite.animation = "attackhook"
 			update()
-		elif hooking:
+		elif hooking or hook_hook_return:
 			$player_sprite.animation = "attackhook"
+			update()
 		else:
 			$player_sprite.animation = "default"
 			
 	$player_sprite.playing = moving
 	
+	if hook_hook_return:
+		pass
+	
 	vspeed = move_and_slide(vspeed, Vector2.UP)
 
 func Attack():
-	if !attacking:
+	if !attacking and !hooking:
 		attacking = true
 		fist = fist_scn.instance()
 		add_child(fist)
 		fist.set_position(Vector2(12 * face, -5))
-		fist.init(face)
-
+		fist.init(face, "attack")
 
 func Hook():
-	pass
+	if !attacking and !hooking:
+		hooking = true
+		fist = fist_scn.instance()
+		add_child(fist)
+		fist.set_position(Vector2(12 * face, -5))
+		fist.init(face, "hook")
+	
+func FinishAttack():
+	attacking = false
+	_detach_fist()
+
+func FinishHook():
+	hook_hook_return = true
+	hooking = false
+
+func _detach_fist():
+	fist.queue_free()
+	remove_child(fist)
+	fist = null
 
 func _draw():
 	if fist:
