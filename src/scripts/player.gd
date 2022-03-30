@@ -6,6 +6,8 @@ var fist = null
 var fist_scn = preload("res://scenes/fist.tscn")
 var face = 1
 
+var hook_equiped = false
+
 var goto_hoook = false
 var goto_hook_pos = null
 var goto_hook_face = 0
@@ -49,11 +51,11 @@ func _physics_process(delta):
 			face = 1
 			moving = true
 			
-		if Input.is_action_pressed("attack"):
+		if hook_equiped and Input.is_action_pressed("attack"):
 			vspeed = Vector2.ZERO
 			Attack()
 		
-		if Input.is_action_pressed("hook"):
+		if hook_equiped and Input.is_action_pressed("hook"):
 			vspeed = Vector2.ZERO
 			Hook()
 			
