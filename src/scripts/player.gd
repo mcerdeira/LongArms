@@ -5,39 +5,70 @@ var vspeed = Vector2.ZERO
 var fist = null
 var fist_scn = preload("res://scenes/fist.tscn")
 var face = 1
+var fist_initial = Vector2.ZERO
 
-var hook_equiped = false
+var hook_equiped = true
 
 var goto_hoook = false
 var goto_hook_pos = null
 var goto_hook_face = 0
+var flag_direction = ""
 
 export var player_speed = 150
 export var player_jump_speed = 250
 export var attacking = false
 export var hooking = false
 export var jumping = false
+export var stomping = 0
 
 func _ready():
 	pass
 
 func _physics_process(delta):
 	var moving = false
-	if goto_hoook:
-		vspeed.x += (player_speed * 10 * delta) * goto_hook_face
-		if goto_hook_face == 1:
-			vspeed = move_and_slide(vspeed, Vector2.RIGHT)
-		else:
-			vspeed = move_and_slide(vspeed, Vector2.LEFT)
+	if stomping > 0:
+		stomping -= 1 * delta
+		$player_sprite.animation = "stomp"
+		$Camera2D.shake(delta, 0.1)
+		if stomping <= 0:
+			$Camera2D.default()
 		
-		$player_sprite.set_scale(Vector2(goto_hook_face, 1))
-		$player_sprite.animation = "hooking"
-		update()
-		
-		if position.distance_to(fist.position) <= 20:
-			vspeed = Vector2.ZERO
-			FinishHook()
-			ReverseJump(delta)
+	elif goto_hoook:
+		if flag_direction == "":
+			vspeed.x += (player_speed * 10 * delta) * goto_hook_face
+			if goto_hook_face == 1:
+				vspeed = move_and_slide(vspeed, Vector2.RIGHT)
+			else:
+				vspeed = move_and_slide(vspeed, Vector2.LEFT)
+			
+			$player_sprite.set_scale(Vector2(goto_hook_face, 1))
+			$player_sprite.animation = "hooking"
+			update()
+			
+			if position.distance_to(fist.position) <= 20:
+				vspeed = Vector2.ZERO
+				FinishHook()
+				ReverseJump(delta)
+		elif flag_direction == "up":
+			vspeed.y -= (player_speed * 10 * delta)
+			vspeed = move_and_slide(vspeed, Vector2.UP)
+			$player_sprite.animation = "hooking_up"
+			update()
+			
+			if position.distance_to(fist.position) <= 20:
+				vspeed = Vector2.ZERO
+				FinishHook()
+				
+		elif flag_direction == "down":
+			vspeed.y += (player_speed * 10 * delta)
+			vspeed = move_and_slide(vspeed, Vector2.DOWN)
+			$player_sprite.animation = "hooking_down"
+			update()
+			
+			if position.distance_to(fist.position) <= 20:
+				vspeed = Vector2.ZERO
+				FinishHook()
+				Stomp()
 		
 	else: 
 		if !attacking and !hooking and Input.is_action_pressed("move_left"):
@@ -65,7 +96,7 @@ func _physics_process(delta):
 		if !attacking and !hooking and is_on_floor() and Input.is_action_pressed("jump"):
 			Jump()
 		
-		if jumping:
+		if jumping or !is_on_floor():
 			$player_sprite.animation = "jumping"
 		elif moving:
 			$player_sprite.animation = "walking"
@@ -75,10 +106,24 @@ func _physics_process(delta):
 		if attacking:
 			vspeed = Vector2.ZERO
 			$player_sprite.animation = "attackhook"
+			if flag_direction == "up":
+				$player_sprite.set_scale(Vector2(1, 1))
+				$player_sprite.animation = "attackhook_up"
+			if flag_direction == "down":
+				$player_sprite.set_scale(Vector2(1, 1))
+				$player_sprite.animation = "attackhook_down"
+			
 			update()
 		elif hooking:
 			vspeed = Vector2.ZERO
 			$player_sprite.animation = "attackhook"
+			if flag_direction == "up":
+				$player_sprite.set_scale(Vector2(1, 1))
+				$player_sprite.animation = "attackhook_up"
+			if flag_direction == "down":
+				$player_sprite.set_scale(Vector2(1, 1))
+				$player_sprite.animation = "attackhook_down"
+				
 			update()
 				
 		$player_sprite.playing = moving
@@ -88,20 +133,51 @@ func _physics_process(delta):
 
 func Attack():
 	if !attacking and !hooking:
+		FlagDirection()
 		attacking = true
 		fist = fist_scn.instance()
 		get_parent().add_child(fist)
-		fist.set_position(Vector2(position.x + 12 * face, position.y - 5))
-		fist.init(face, "attack", self)
+		var pos = Vector2(position.x + 12 * face, position.y - 5)
+		fist_initial = Vector2(12 * face, -5)
+		if flag_direction == "up":
+			fist_initial = Vector2(4, -18)
+			pos = Vector2(position.x + 4, position.y - 18)
+		if flag_direction == "down":
+			fist_initial = Vector2(9, 13)
+			pos = Vector2(position.x + 9, position.y + 13)
+		
+		fist.set_position(pos)
+		fist.init(face, "attack", self, flag_direction)
 
 func Hook():
 	if !attacking and !hooking:
+		FlagDirection()
 		hooking = true
 		fist = fist_scn.instance()
 		get_parent().add_child(fist)
-		fist.set_position(Vector2(position.x + 12 * face, position.y - 5))
-		fist.init(face, "hook", self)
-	
+		var pos = Vector2(position.x + 12 * face, position.y - 5)
+		fist_initial = Vector2(12 * face, -5)
+		if flag_direction == "up":
+			fist_initial = Vector2(4, -18)
+			pos = Vector2(position.x + 4, position.y - 18)
+		if flag_direction == "down":
+			fist_initial = Vector2(9, 13)
+			pos = Vector2(position.x + 9, position.y + 13)
+		
+		fist.set_position(pos)
+		fist.init(face, "hook", self, flag_direction)
+
+func FlagDirection():
+	flag_direction = ""
+	if Input.is_action_pressed("move_up"):
+		flag_direction = "up"
+		
+	if jumping and Input.is_action_pressed("move_down"):
+		flag_direction = "down"
+
+func Stomp():
+	stomping = 2
+
 func ReverseJump(delta):
 	Jump()
 	face *= -1
@@ -114,11 +190,15 @@ func Jump():
 	
 func FinishAttack():
 	attacking = false
+	if flag_direction != "":
+		$player_sprite.set_scale(Vector2(face, 1))
 	_detach_fist()
 
 func FinishHook():
 	hooking = false
 	goto_hoook = false
+	if flag_direction != "":
+		$player_sprite.set_scale(Vector2(face, 1))
 	_detach_fist()
 
 func GotoHook(_face, _position):
@@ -132,4 +212,4 @@ func _detach_fist():
 
 func _draw():
 	if fist:
-		draw_line(Vector2(12 * face, -5), to_local(fist.position),  Color(255, 255, 255), 1)
+		draw_line(fist_initial, to_local(fist.position),  Color(255, 255, 255), 1)
