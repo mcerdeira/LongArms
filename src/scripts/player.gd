@@ -38,7 +38,7 @@ func _physics_process(delta):
 		air_timer += 1 * delta
 	else:
 		if air_timer >= 2:
-			fake_stomp = 1
+			fake_stomp = 1.5
 		air_timer = 0
 	
 	if fake_stomp > 0:
