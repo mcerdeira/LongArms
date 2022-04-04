@@ -4,6 +4,7 @@ export var gravity = 7
 var vspeed = Vector2.ZERO
 var fist = null
 var fist_scn = preload("res://scenes/fist.tscn")
+var burst_scn = preload("res://scenes/burst.tscn")
 var face = 1
 var fist_initial = Vector2.ZERO
 
@@ -13,6 +14,7 @@ var goto_hoook = false
 var goto_hook_pos = null
 var goto_hook_face = 0
 var flag_direction = ""
+var stomp_timer = 0
 
 export var player_speed = 150
 export var player_jump_speed = 250
@@ -27,10 +29,12 @@ func _ready():
 func _physics_process(delta):
 	var moving = false
 	if stomping > 0:
+		stomp_timer -= 1 * delta
 		stomping -= 1 * delta
 		$player_sprite.animation = "stomp"
-		$Camera2D.shake(delta, 0.1)
-		if stomping <= 0:
+		if stomp_timer > 0:
+			$Camera2D.shake(delta, 0.1)
+		elif stomp_timer <= 0:
 			$Camera2D.default()
 		
 	elif goto_hoook:
@@ -174,7 +178,20 @@ func FlagDirection():
 		flag_direction = "down"
 
 func Stomp():
+	stomp_timer = 0.5
 	stomping = 2
+	var pos1 = Vector2(position.x + 16, position.y + 7)
+	var pos2 = Vector2(position.x - 16, position.y + 7)
+	
+	var burst = burst_scn.instance()
+	get_parent().add_child(burst)
+	burst.initialize(1)
+	burst.set_position(pos1)
+	
+	burst = burst_scn.instance()
+	get_parent().add_child(burst)
+	burst.initialize(-1)
+	burst.set_position(pos2)
 
 func ReverseJump(delta):
 	Jump()
