@@ -31,26 +31,26 @@ func _physics_process(delta):
 		if flag_direction == "":
 			vspeed.x += (_speed * delta) * face
 			if face == 1:
-				vspeed = move_and_slide(vspeed, Vector2.RIGHT)
+				vspeed = move_and_slide(vspeed, Vector2.UP)
 			else:
-				vspeed = move_and_slide(vspeed, Vector2.LEFT)
+				vspeed = move_and_slide(vspeed, Vector2.UP)
 		elif flag_direction == "up":
 			vspeed.y -= (_speed * delta)
 			vspeed = move_and_slide(vspeed, Vector2.UP)
 		elif flag_direction == "down":
 			vspeed.y += (_speed * delta)
-			vspeed = move_and_slide(vspeed, Vector2.DOWN)
+			vspeed = move_and_slide(vspeed, Vector2.UP)
 		
 	elif action == "return":
 		if flag_direction == "":
 			vspeed.x += (_speed * delta) * (face * -1)
 			if (face *-1) == 1:
-				vspeed = move_and_slide(vspeed, Vector2.RIGHT)
+				vspeed = move_and_slide(vspeed, Vector2.UP)
 			else:
-				vspeed = move_and_slide(vspeed, Vector2.LEFT)
+				vspeed = move_and_slide(vspeed, Vector2.UP)
 		elif flag_direction == "up":
 			vspeed.y += (_speed * delta)
-			vspeed = move_and_slide(vspeed, Vector2.DOWN)
+			vspeed = move_and_slide(vspeed, Vector2.UP)
 		elif flag_direction == "down":
 			vspeed.y -= (_speed * delta)
 			vspeed = move_and_slide(vspeed, Vector2.UP)

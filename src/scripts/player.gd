@@ -30,9 +30,6 @@ func _ready():
 	pass
 
 func _physics_process(delta):
-	print(air_timer)
-	
-	
 	var moving = false
 	if !is_on_floor():
 		air_timer += 1 * delta
@@ -59,9 +56,9 @@ func _physics_process(delta):
 		if flag_direction == "":
 			vspeed.x += (player_speed * 10 * delta) * goto_hook_face
 			if goto_hook_face == 1:
-				vspeed = move_and_slide(vspeed, Vector2.RIGHT)
+				vspeed = move_and_slide(vspeed, Vector2.UP)
 			else:
-				vspeed = move_and_slide(vspeed, Vector2.LEFT)
+				vspeed = move_and_slide(vspeed, Vector2.UP)
 			
 			$player_sprite.set_scale(Vector2(goto_hook_face, 1))
 			$player_sprite.animation = "hooking"
@@ -83,7 +80,7 @@ func _physics_process(delta):
 				
 		elif flag_direction == "down":
 			vspeed.y += (player_speed * 10 * delta)
-			vspeed = move_and_slide(vspeed, Vector2.DOWN)
+			vspeed = move_and_slide(vspeed, Vector2.UP)
 			$player_sprite.animation = "hooking_down"
 			update()
 			

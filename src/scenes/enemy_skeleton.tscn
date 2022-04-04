@@ -1,0 +1,42 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://sprites/skeleton1.png" type="Texture" id=1]
+[ext_resource path="res://sprites/skeleton2.png" type="Texture" id=2]
+[ext_resource path="res://sprites/knight2.png" type="Texture" id=3]
+[ext_resource path="res://sprites/knight3.png" type="Texture" id=4]
+[ext_resource path="res://sprites/knight1.png" type="Texture" id=5]
+[ext_resource path="res://sprites/knight4.png" type="Texture" id=6]
+[ext_resource path="res://scripts/enemy_skeleton.gd" type="Script" id=7]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "skeleton",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "knight",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "knight_attack",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7.5, 15 )
+
+[node name="skeleton" type="KinematicBody2D"]
+script = ExtResource( 7 )
+
+[node name="sprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "skeleton"
+playing = true
+
+[node name="collider" type="CollisionShape2D" parent="."]
+position = Vector2( 0.5, 1 )
+shape = SubResource( 1 )
