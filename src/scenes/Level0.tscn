@@ -50,6 +50,9 @@ points = PoolVector2Array( 16, 15.9362, 0.00997543, 15.9362, 0, 0.00997543, 16, 
 position = Vector2( -449, 94 )
 script = ExtResource( 3 )
 
+[node name="skeleton2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1024, -272 )
+
 [node name="skeleton" parent="." instance=ExtResource( 7 )]
 position = Vector2( 800, -272 )
 
