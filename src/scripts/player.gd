@@ -15,6 +15,7 @@ var goto_hook_pos = null
 var goto_hook_face = 0
 var flag_direction = ""
 var stomp_timer = 0
+var stomp_nomana = false
 
 export var player_speed = 150
 export var player_jump_speed = 250
@@ -32,10 +33,11 @@ func _physics_process(delta):
 		stomp_timer -= 1 * delta
 		stomping -= 1 * delta
 		$player_sprite.animation = "stomp"
-		if stomp_timer > 0:
-			$Camera2D.shake(delta, 0.1)
-		elif stomp_timer <= 0:
-			$Camera2D.default()
+		if !stomp_nomana:
+			if stomp_timer > 0:
+				$Camera2D.shake(delta, 0.1)
+			elif stomp_timer <= 0:
+				$Camera2D.default()
 		
 	elif goto_hoook:
 		if flag_direction == "":
@@ -179,19 +181,26 @@ func FlagDirection():
 
 func Stomp():
 	stomp_timer = 0.5
-	stomping = 2
-	var pos1 = Vector2(position.x + 16, position.y + 7)
-	var pos2 = Vector2(position.x - 16, position.y + 7)
+	stomping = 1
 	
-	var burst = burst_scn.instance()
-	get_parent().add_child(burst)
-	burst.initialize(1)
-	burst.set_position(pos1)
+	if Global.MANA > 0:
+		stomp_nomana = false
+		Global.MANA -= Global.MANA_COST
 	
-	burst = burst_scn.instance()
-	get_parent().add_child(burst)
-	burst.initialize(-1)
-	burst.set_position(pos2)
+		var pos1 = Vector2(position.x + 16, position.y + 7)
+		var pos2 = Vector2(position.x - 16, position.y + 7)
+		
+		var burst = burst_scn.instance()
+		get_parent().add_child(burst)
+		burst.initialize(1)
+		burst.set_position(pos1)
+		
+		burst = burst_scn.instance()
+		get_parent().add_child(burst)
+		burst.initialize(-1)
+		burst.set_position(pos2)
+	else:
+		stomp_nomana = true
 
 func ReverseJump(delta):
 	Jump()

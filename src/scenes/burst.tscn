@@ -6,7 +6,7 @@
 [ext_resource path="res://scripts/burst.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 6.98422, 10.3173 )
+extents = Vector2( 6.98422, 10.6346 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -20,11 +20,12 @@ animations = [ {
 script = ExtResource( 4 )
 
 [node name="collider" type="CollisionShape2D" parent="."]
-position = Vector2( 0.200301, 0.328219 )
+position = Vector2( 0.200301, 5.06639e-07 )
 scale = Vector2( 1.25994, 1.03436 )
 shape = SubResource( 1 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 frame = 1
+speed_scale = 3.0
 playing = true

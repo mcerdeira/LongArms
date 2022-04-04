@@ -22,9 +22,9 @@ func _on_item_body_entered(body):
 		if type == "whip":
 			body.hook_equiped = true
 		elif type == "food":
-			pass
+			Global.AddLife(1)
 		elif type == "money":
-			pass
+			Global.AddMana()
 		
 		queue_free()
 		get_parent().remove_child(self)
