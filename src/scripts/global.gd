@@ -17,6 +17,11 @@ func AddMana():
 	if MANA > TOTAL_MANA:
 		MANA = TOTAL_MANA
 
+func PlayerHit(value):
+	LIFE -= value
+	if LIFE < 0:
+		LIFE = 0
+
 func AddLife(value:= 1):
 	LIFE += value
 	if LIFE > TOTAL_LIFE:

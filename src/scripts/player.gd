@@ -215,6 +215,9 @@ func Stomp():
 	else:
 		stomp_nomana = true
 
+func hitted(value):
+	Global.PlayerHit(value)
+
 func ReverseJump(delta):
 	Jump()
 	face *= -1
