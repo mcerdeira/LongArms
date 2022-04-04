@@ -8,6 +8,8 @@ var burst_scn = preload("res://scenes/burst.tscn")
 var face = 1
 var fist_initial = Vector2.ZERO
 var air_timer = 0
+var hitted_time = 0
+var hitted_hide = 0
 
 var hook_equiped = true
 
@@ -30,6 +32,18 @@ func _ready():
 	pass
 
 func _physics_process(delta):
+	if hitted_time > 0:
+		hitted_hide -= 1 * delta
+		if hitted_hide <= 0:
+			hitted_hide = 0.1
+			$player_sprite.visible = !$player_sprite.visible 
+		
+		hitted_time -= 1 * delta
+		if hitted_time <= 0:
+			$player_sprite.visible = true
+			hitted_time = 0
+			hitted_hide = 0
+		
 	var moving = false
 	if !is_on_floor():
 		air_timer += 1 * delta
@@ -216,6 +230,7 @@ func Stomp():
 		stomp_nomana = true
 
 func hitted(value):
+	hitted_time = 3
 	Global.PlayerHit(value)
 
 func ReverseJump(delta):

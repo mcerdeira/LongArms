@@ -26,7 +26,3 @@ func AddLife(value:= 1):
 	LIFE += value
 	if LIFE > TOTAL_LIFE:
 		LIFE = TOTAL_LIFE
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
