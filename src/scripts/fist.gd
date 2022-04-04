@@ -21,6 +21,7 @@ func init(_face, _mode, _parent, _flag_direction):
 		rotation_degrees = 270
 	elif flag_direction == "down":
 		rotation_degrees = 90
+		$sprite.set_scale(Vector2(face, 1))
 	else:
 		$sprite.set_scale(Vector2(face, 1))
 

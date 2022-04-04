@@ -110,7 +110,6 @@ func _physics_process(delta):
 				$player_sprite.set_scale(Vector2(1, 1))
 				$player_sprite.animation = "attackhook_up"
 			if flag_direction == "down":
-				$player_sprite.set_scale(Vector2(1, 1))
 				$player_sprite.animation = "attackhook_down"
 			
 			update()
@@ -121,7 +120,6 @@ func _physics_process(delta):
 				$player_sprite.set_scale(Vector2(1, 1))
 				$player_sprite.animation = "attackhook_up"
 			if flag_direction == "down":
-				$player_sprite.set_scale(Vector2(1, 1))
 				$player_sprite.animation = "attackhook_down"
 				
 			update()
@@ -140,11 +138,11 @@ func Attack():
 		var pos = Vector2(position.x + 12 * face, position.y - 5)
 		fist_initial = Vector2(12 * face, -5)
 		if flag_direction == "up":
-			fist_initial = Vector2(4, -18)
-			pos = Vector2(position.x + 4, position.y - 18)
+			fist_initial = Vector2(0, -21)
+			pos = Vector2(position.x, position.y - 21)
 		if flag_direction == "down":
-			fist_initial = Vector2(9, 13)
-			pos = Vector2(position.x + 9, position.y + 13)
+			fist_initial = Vector2(9 * face, 13)
+			pos = Vector2(position.x + (9 * face), position.y + 13)
 		
 		fist.set_position(pos)
 		fist.init(face, "attack", self, flag_direction)
@@ -158,11 +156,11 @@ func Hook():
 		var pos = Vector2(position.x + 12 * face, position.y - 5)
 		fist_initial = Vector2(12 * face, -5)
 		if flag_direction == "up":
-			fist_initial = Vector2(4, -18)
-			pos = Vector2(position.x + 4, position.y - 18)
+			fist_initial = Vector2(0, -21)
+			pos = Vector2(position.x, position.y - 21)
 		if flag_direction == "down":
-			fist_initial = Vector2(9, 13)
-			pos = Vector2(position.x + 9, position.y + 13)
+			fist_initial = Vector2(9 * face, 13)
+			pos = Vector2(position.x + (9 * face), position.y + 13)
 		
 		fist.set_position(pos)
 		fist.init(face, "hook", self, flag_direction)
@@ -197,7 +195,7 @@ func FinishAttack():
 func FinishHook():
 	hooking = false
 	goto_hoook = false
-	if flag_direction != "":
+	if flag_direction != "down":
 		$player_sprite.set_scale(Vector2(face, 1))
 	_detach_fist()
 

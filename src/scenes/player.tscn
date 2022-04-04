@@ -29,24 +29,9 @@ animations = [ {
 "name": "walking",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 10 ) ],
-"loop": true,
-"name": "hooking",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 8 ) ],
-"loop": true,
-"name": "jumping",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 9 ) ],
 "loop": true,
 "name": "attackhook",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 11 ) ],
-"loop": true,
-"name": "attackhook_up",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 12 ) ],
@@ -64,9 +49,24 @@ animations = [ {
 "name": "attackhook_down",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "attackhook_up",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 13 ) ],
 "loop": true,
 "name": "hooking_down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "hooking",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "jumping",
 "speed": 5.0
 } ]
 
@@ -77,7 +77,6 @@ extents = Vector2( 5, 15.75 )
 
 [node name="player_sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-animation = "hooking_down"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
