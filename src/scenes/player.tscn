@@ -24,11 +24,6 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "walking",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 10 ) ],
 "loop": true,
 "name": "hooking",
@@ -37,11 +32,6 @@ animations = [ {
 "frames": [ ExtResource( 8 ) ],
 "loop": true,
 "name": "jumping",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 15 ) ],
-"loop": true,
-"name": "stomp",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 12 ) ],
@@ -54,19 +44,29 @@ animations = [ {
 "name": "hooking_down",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ) ],
-"loop": true,
-"name": "attackhook_down",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 9 ) ],
 "loop": true,
 "name": "attackhook",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 14 ) ],
+"loop": true,
+"name": "attackhook_down",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 11 ) ],
 "loop": true,
 "name": "attackhook_up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 15 ) ],
+"loop": true,
+"name": "stomp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "walking",
 "speed": 5.0
 } ]
 
@@ -83,6 +83,7 @@ current = true
 smoothing_enabled = true
 smoothing_speed = 1.0
 script = ExtResource( 16 )
+max_offset = Vector2( 100, 100 )
 
 [node name="player_collider" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 2 )

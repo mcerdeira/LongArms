@@ -7,6 +7,7 @@ var fist_scn = preload("res://scenes/fist.tscn")
 var burst_scn = preload("res://scenes/burst.tscn")
 var face = 1
 var fist_initial = Vector2.ZERO
+var air_timer = 0
 
 var hook_equiped = true
 
@@ -16,6 +17,7 @@ var goto_hook_face = 0
 var flag_direction = ""
 var stomp_timer = 0
 var stomp_nomana = false
+var fake_stomp = 0
 
 export var player_speed = 150
 export var player_jump_speed = 250
@@ -28,8 +30,22 @@ func _ready():
 	pass
 
 func _physics_process(delta):
+	print(air_timer)
+	
+	
 	var moving = false
-	if stomping > 0:
+	if !is_on_floor():
+		air_timer += 1 * delta
+	else:
+		if air_timer >= 2:
+			fake_stomp = 1
+		air_timer = 0
+	
+	if fake_stomp > 0:
+		fake_stomp -= 1 * delta
+		$player_sprite.animation = "stomp"
+	
+	elif stomping > 0:
 		stomp_timer -= 1 * delta
 		stomping -= 1 * delta
 		$player_sprite.animation = "stomp"
@@ -221,6 +237,7 @@ func FinishAttack():
 func FinishHook():
 	hooking = false
 	goto_hoook = false
+	air_timer = 0
 	if flag_direction != "down":
 		$player_sprite.set_scale(Vector2(face, 1))
 	_detach_fist()
