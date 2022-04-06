@@ -5,13 +5,39 @@ var idle = true
 var player = null
 var face = 1
 var vspeed = Vector2.ZERO
+var revive = false
+var dead = false
+var dead_counter = 0
 export var _speed = 30
 
 func _ready():
 	player = get_parent().get_node("player")
 
+func die():
+	dead = true
+	dead_counter = 2
+	$sprite.animation = "skeleton_die"
+
 func _physics_process(delta):
-	if idle:
+	if dead:
+		if !revive:
+			if $sprite.frame == 1:
+				$sprite.playing = false
+				
+			dead_counter -= 1 * delta
+			if dead_counter <= 0:
+				revive = true
+		else:
+			if !$sprite.is_playing():
+				$sprite.play($sprite.animation, true)
+			else:
+				if $sprite.frame == 0:
+					$sprite.playing = false
+					revive = false
+					dead = false
+					$sprite.animation = "skeleton"
+			
+	elif idle:
 		if position.distance_to(player.position) <= 150:
 			idle = false
 		else:

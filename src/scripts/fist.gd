@@ -21,9 +21,9 @@ func init(_face, _mode, _parent, _flag_direction):
 		rotation_degrees = 270
 	elif flag_direction == "down":
 		rotation_degrees = 90
-		$sprite.set_scale(Vector2(face, 1))
+		set_scale(Vector2(face, 1))
 	else:
-		$sprite.set_scale(Vector2(face, 1))
+		set_scale(Vector2(face, 1))
 
 func _physics_process(delta):
 	if action == "goto":
@@ -80,3 +80,13 @@ func _physics_process(delta):
 	elif action == "stay":
 		parent.GotoHook(face, to_global(position))
 
+
+
+func _on_area_body_entered(body):
+	if "me_name" in body:
+		if body.me_name == "KNIGHT":
+			pass
+		elif body.me_name == "SKELETON":
+			body.die()
+		elif body.me_name == "KNIGHT_SHIELD":
+			pass

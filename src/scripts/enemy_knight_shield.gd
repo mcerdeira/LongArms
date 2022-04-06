@@ -1,5 +1,5 @@
 extends KinematicBody2D
-var me_name = "KNIGHT"
+var me_name = "KNIGHT_SHIELD"
 export var gravity = 7
 var idle = true
 var player = null
