@@ -80,13 +80,11 @@ func _physics_process(delta):
 	elif action == "stay":
 		parent.GotoHook(face, to_global(position))
 
-
-
 func _on_area_body_entered(body):
 	if "me_name" in body:
-		if body.me_name == "KNIGHT":
-			pass
-		elif body.me_name == "SKELETON":
+		if body.me_name == "SKELETON":
 			body.die()
-		elif body.me_name == "KNIGHT_SHIELD":
-			pass
+		elif body.me_name == "KNIGHT" and mode == "hook":
+			body.stun()
+		elif body.me_name == "KNIGHT_SHIELD" and mode == "hook":
+			body.stun()

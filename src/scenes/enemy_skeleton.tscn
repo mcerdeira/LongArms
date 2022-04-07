@@ -22,14 +22,14 @@ animations = [ {
 "name": "knight",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "skeleton_die",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "knight_attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "skeleton_die",
 "speed": 5.0
 } ]
 
@@ -42,6 +42,7 @@ script = ExtResource( 7 )
 [node name="sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 animation = "skeleton"
+frame = 1
 playing = true
 
 [node name="collider" type="CollisionShape2D" parent="."]

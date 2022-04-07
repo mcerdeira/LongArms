@@ -15,8 +15,9 @@ func _ready():
 
 func die():
 	dead = true
-	dead_counter = 2
+	dead_counter = 8
 	$sprite.animation = "skeleton_die"
+	$collider.set_deferred("disabled", true)
 
 func _physics_process(delta):
 	if dead:
@@ -36,6 +37,7 @@ func _physics_process(delta):
 					revive = false
 					dead = false
 					$sprite.animation = "skeleton"
+					$collider.set_deferred("disabled", false)
 			
 	elif idle:
 		if position.distance_to(player.position) <= 150:
@@ -46,14 +48,15 @@ func _physics_process(delta):
 		$sprite.playing = true
 		if position.x > player.position.x:
 			if face == -1:
+				face = 1
+				$sprite.scale = (Vector2(face, 1))
 				vspeed = Vector2.ZERO
-			face = 1
 		else:
 			if face == 1:
+				face = -1
+				$sprite.scale = (Vector2(face, 1))
 				vspeed = Vector2.ZERO
-			face = -1
 			
-		$sprite.set_scale(Vector2(face, 1))
 		position.x += (_speed * delta) * (face * -1)
 		vspeed.y += gravity
-		vspeed = move_and_slide(vspeed, Vector2.UP)		
+		vspeed = move_and_slide(vspeed, Vector2.UP)

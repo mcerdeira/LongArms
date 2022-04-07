@@ -88,3 +88,6 @@ margin_right = 41.0
 [node name="ui" parent="CanvasLayer" instance=ExtResource( 5 )]
 margin_left = 1.0
 margin_right = 1.0
+
+[node name="knight2" parent="." instance=ExtResource( 9 )]
+position = Vector2( -318, 93 )

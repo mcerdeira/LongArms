@@ -14,6 +14,9 @@ func _ready():
 	player = get_parent().get_node("player")
 	$attack_area.monitoring = false
 
+func stun():
+	pass
+
 func _physics_process(delta):
 	if idle:
 		if position.distance_to(player.position) <= 150:
@@ -42,12 +45,14 @@ func _physics_process(delta):
 			if position.x > player.position.x:
 				if face == -1:
 					vspeed = Vector2.ZERO
-				face = 1
+					face = 1
+					set_scale(Vector2(face, 1))
 			else:
 				if face == 1:
 					vspeed = Vector2.ZERO
-				face = -1
-			$sprite.set_scale(Vector2(face, 1))
+					face = -1
+					set_scale(Vector2(face, 1))
+			
 			position.x += (_speed * delta) * (face * -1)
 		
 		vspeed.y += gravity

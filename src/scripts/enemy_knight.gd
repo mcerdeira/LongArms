@@ -8,11 +8,15 @@ var pre_attack = 0.5
 var vspeed = Vector2.ZERO
 var attacking = 0
 var hit_points = 5
+var stun_time = 0
 export var _speed = 10
 
 func _ready():
 	player = get_parent().get_node("player")
 	$attack_area.monitoring = false
+	
+func stun():
+	stun_time = 2
 
 func _physics_process(delta):
 	if idle:
@@ -36,23 +40,27 @@ func _physics_process(delta):
 			$sprite.animation = "knight_pre_attack"
 			pre_attack -= 1 * delta
 		else:
-			pre_attack = 0.5
+			pre_attack = 0.5 + stun_time
+			stun_time = 0
 			$sprite.animation = "knight"
 			$sprite.playing = true
 			if position.x > player.position.x:
 				if face == -1:
 					vspeed = Vector2.ZERO
-				face = 1
+					face = 1
+					$sprite.set_scale(Vector2(face, 1))
+					$attack_area.set_scale($sprite.scale)
 			else:
 				if face == 1:
 					vspeed = Vector2.ZERO
-				face = -1
-			$sprite.set_scale(Vector2(face, 1))
+					face = -1
+					$sprite.set_scale(Vector2(face, 1))
+					$attack_area.set_scale($sprite.scale)
+					
 			position.x += (_speed * delta) * (face * -1)
-		
+
 		vspeed.y += gravity
 		vspeed = move_and_slide(vspeed, Vector2.UP)		
-
 
 func _on_attack_area_body_entered(body):
 	if attacking > 0:

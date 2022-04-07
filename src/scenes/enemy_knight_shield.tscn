@@ -29,11 +29,6 @@ animations = [ {
 "name": "knight_pre_attack",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ) ],
-"loop": true,
-"name": "knight_attack",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 11 ) ],
 "loop": true,
 "name": "knight_shield_attack",
@@ -42,6 +37,11 @@ animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "knight_shield",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "knight_attack",
 "speed": 5.0
 } ]
 
