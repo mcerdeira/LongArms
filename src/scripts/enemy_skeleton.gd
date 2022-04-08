@@ -8,6 +8,16 @@ var vspeed = Vector2.ZERO
 var revive = false
 var dead = false
 var dead_counter = 0
+var agro = 250
+var attack_agro = 250
+var jumping = false
+var jump_speed = 250
+var jump_ttl_total = 3
+var jump_ttl = jump_ttl_total
+var attacked = false
+var bone_scn = preload("res://scenes/skeleton_bone.tscn")
+var really_dead = false
+var alpha = 1
 export var _speed = 30
 
 func _ready():
@@ -18,9 +28,21 @@ func die():
 	dead_counter = 8
 	$sprite.animation = "skeleton_die"
 	$collider.set_deferred("disabled", true)
+	
+func really_die():
+	really_dead = true
+	$sprite.animation = "skeleton_die"
+	$collider.set_deferred("disabled", true)
 
 func _physics_process(delta):
-	if dead:
+	if really_dead:
+		alpha -= 1 * delta
+		$sprite.modulate.a = alpha
+		if alpha <= 0:
+			queue_free()
+			get_parent().remove_child(self)
+		
+	elif dead:
 		if !revive:
 			if $sprite.frame == 1:
 				$sprite.playing = false
@@ -40,12 +62,31 @@ func _physics_process(delta):
 					$collider.set_deferred("disabled", false)
 			
 	elif idle:
-		if position.distance_to(player.position) <= 150:
+		if position.distance_to(player.position) <= agro:
 			idle = false
 		else:
 			$sprite.playing = false
 	else:
 		$sprite.playing = true
+		
+		if jumping and is_on_floor():
+			$sprite.animation = "skeleton"
+			jumping = false
+			
+		if jumping and !attacked:
+			if vspeed.y > 0:
+				attacked = true
+				Attack()
+		
+		if !jumping and position.distance_to(player.position) <= attack_agro:
+			jump_ttl -= 1 * delta
+			if jump_ttl <= 0:
+				$sprite.animation = "skeleton_attack"
+				jump_ttl = jump_ttl_total
+				vspeed.y = -jump_speed
+				attacked = false
+				jumping = true
+		
 		if position.x > player.position.x:
 			if face == -1:
 				face = 1
@@ -60,3 +101,9 @@ func _physics_process(delta):
 		position.x += (_speed * delta) * (face * -1)
 		vspeed.y += gravity
 		vspeed = move_and_slide(vspeed, Vector2.UP)
+
+func Attack():
+	var bone = bone_scn.instance()
+	get_parent().add_child(bone)
+	bone.set_position(position)
+	bone.initialize(player)

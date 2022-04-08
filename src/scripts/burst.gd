@@ -23,3 +23,9 @@ func _physics_process(delta):
 		else:
 			vspeed = move_and_slide(vspeed, Vector2.LEFT)
 
+
+
+func _on_area_body_entered(body):
+	if "me_name" in body:
+		if body.me_name == "SKELETON":
+			body.really_die()

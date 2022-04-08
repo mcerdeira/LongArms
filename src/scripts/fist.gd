@@ -84,7 +84,10 @@ func _on_area_body_entered(body):
 	if "me_name" in body:
 		if body.me_name == "SKELETON":
 			body.die()
-		elif body.me_name == "KNIGHT" and mode == "hook":
-			body.stun()
-		elif body.me_name == "KNIGHT_SHIELD" and mode == "hook":
-			body.stun()
+		elif body.me_name == "KNIGHT" or body.me_name == "KNIGHT_SHIELD":
+			if  mode == "hook":
+				body.stun()
+			elif mode == "attack":
+				if (face == -1 and body.face == 1 and position.x > body.position.x) or \
+				   (face == 1 and body.face == -1 and position.x < body.position.x):
+						body.hitted()

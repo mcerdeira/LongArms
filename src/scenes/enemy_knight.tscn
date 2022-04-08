@@ -21,14 +21,14 @@ animations = [ {
 "name": "knight",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 8 ) ],
-"loop": true,
-"name": "knight_pre_attack",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "knight_attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "knight_pre_attack",
 "speed": 5.0
 } ]
 
@@ -43,8 +43,8 @@ script = ExtResource( 7 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-animation = "knight_attack"
-playing = true
+animation = "knight"
+frame = 1
 
 [node name="collider" type="CollisionShape2D" parent="."]
 position = Vector2( 1, 1 )

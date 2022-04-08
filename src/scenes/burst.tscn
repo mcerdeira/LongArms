@@ -5,9 +5,6 @@
 [ext_resource path="res://sprites/burst2.png" type="Texture" id=3]
 [ext_resource path="res://scripts/burst.gd" type="Script" id=4]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 6.98422, 10.6346 )
-
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 3 ), ExtResource( 2 ) ],
@@ -16,16 +13,21 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 9, 11 )
+
 [node name="burst" type="KinematicBody2D"]
 script = ExtResource( 4 )
 
-[node name="collider" type="CollisionShape2D" parent="."]
-position = Vector2( 0.200301, 5.06639e-07 )
-scale = Vector2( 1.25994, 1.03436 )
-shape = SubResource( 1 )
-
 [node name="sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-frame = 1
+frame = 2
 speed_scale = 3.0
 playing = true
+
+[node name="area" type="Area2D" parent="."]
+
+[node name="collider_area" type="CollisionShape2D" parent="area"]
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="area" to="." method="_on_area_body_entered"]
