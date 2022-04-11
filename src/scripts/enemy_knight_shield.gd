@@ -62,8 +62,10 @@ func _physics_process(delta):
 		if attacking > 0:
 			$attack_area.monitoring = true
 			$sprite.animation = "knight_shield_attack"
+			$sprite.speed_scale = 3
 			attacking -= 1 * delta
 			if attacking <= 0:
+				$sprite.speed_scale = 1
 				$attack_area.monitoring = false
 				$sprite.animation = "knight_shield"
 				pre_attack = pre_attack_total
