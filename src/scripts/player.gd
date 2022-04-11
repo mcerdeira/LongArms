@@ -71,9 +71,9 @@ func _physics_process(delta):
 		$player_sprite.animation = "stomp"
 		if !stomp_nomana:
 			if stomp_timer > 0:
-				$Camera2D.shake(delta, 0.1)
+				CameraShake(delta)
 			elif stomp_timer <= 0:
-				$Camera2D.default()
+				CameraDefault()
 		
 	elif goto_hoook:
 		if flag_direction == "":
@@ -267,6 +267,15 @@ func FinishHook():
 	if flag_direction != "down":
 		$player_sprite.set_scale(Vector2(face, 1))
 	_detach_fist()
+
+func CameraShake(delta):
+	$Camera2D.shake(delta, 0.1)
+	
+func CameraShakeValue(delta, value):
+	$Camera2D.shake(delta, value)
+	
+func CameraDefault():
+	$Camera2D.default()
 
 func GotoHook(_face, _position):
 	goto_hoook = true

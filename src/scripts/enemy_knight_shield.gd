@@ -64,7 +64,9 @@ func _physics_process(delta):
 			$sprite.animation = "knight_shield_attack"
 			$sprite.speed_scale = 3
 			attacking -= 1 * delta
+			player.CameraShakeValue(delta, 0.05)
 			if attacking <= 0:
+				player.CameraDefault()
 				$sprite.speed_scale = 1
 				$attack_area.monitoring = false
 				$sprite.animation = "knight_shield"
