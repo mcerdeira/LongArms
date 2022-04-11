@@ -60,9 +60,6 @@ position = Vector2( 1024, -272 )
 [node name="skeleton" parent="." instance=ExtResource( 7 )]
 position = Vector2( 800, -272 )
 
-[node name="skeleton3" parent="." instance=ExtResource( 7 )]
-position = Vector2( -246, 96 )
-
 [node name="knight" parent="." instance=ExtResource( 9 )]
 position = Vector2( 536, 93 )
 
@@ -91,3 +88,6 @@ margin_right = 41.0
 [node name="ui" parent="CanvasLayer" instance=ExtResource( 5 )]
 margin_left = 1.0
 margin_right = 1.0
+
+[node name="knight2" parent="." instance=ExtResource( 9 )]
+position = Vector2( -191, 93 )

@@ -15,8 +15,10 @@ var hitted_hide = 0
 var alpha = 1
 var life = 3
 var dead = false
-var attack_agro = 50
-var agro = 150
+var attack_agro = 30
+var agro = 300
+var agresive = false
+var stop_agresive = 0
 export var _speed = 10
 
 func _ready():
@@ -83,21 +85,43 @@ func _physics_process(delta):
 				if face == -1:
 					vspeed = Vector2.ZERO
 					face = 1
-					$sprite.set_scale(Vector2(face, 1))
-					$attack_area.set_scale($sprite.scale)
+					_scale_all(face)
 			else:
 				if face == 1:
 					vspeed = Vector2.ZERO
 					face = -1
-					$sprite.set_scale(Vector2(face, 1))
-					$attack_area.set_scale($sprite.scale)
-					
-			position.x += (_speed * delta) * (face * -1)
+					_scale_all(face)
+			
+			var agr = 0 
+			if agresive:
+				agr = 35
+				if stop_agresive > 0:
+					stop_agresive -= 1 * delta
+					if stop_agresive <= 0:
+						stop_agresive = 0
+						agresive = false
+				
+			position.x += ((_speed + agr) * delta) * (face * -1)
 
 		vspeed.y += gravity
 		vspeed = move_and_slide(vspeed, Vector2.UP)
 
+func _scale_all(face):
+	$sprite.set_scale(Vector2(face, 1))
+	$attack_area.set_scale($sprite.scale)
+	$detect_area.set_scale($sprite.scale)
+
 func _on_attack_area_body_entered(body):
-	if attacking > 0:
+	if !dead and attacking > 0:
 		if body.name == "player":
 			body.hitted(hit_points)
+
+func _on_detect_area_body_entered(body):
+	if !dead and !idle and attacking <= 0:
+		if body.name == "player":
+			agresive = true
+
+func _on_detect_area_body_exited(body):
+	if agresive:
+		if body.name == "player":
+			stop_agresive = 5
