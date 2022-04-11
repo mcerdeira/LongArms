@@ -16,7 +16,7 @@ var dead = false
 var hit_points = 5
 var life = 5
 var agro = 150
-var attack_agro = 60
+var attack_agro = 80
 export var _speed = 10
 
 func _ready():

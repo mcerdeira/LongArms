@@ -10,6 +10,7 @@ var fist_initial = Vector2.ZERO
 var air_timer = 0
 var hitted_time = 0
 var hitted_hide = 0
+var dead = false
 
 var hook_equiped = true
 
@@ -32,7 +33,7 @@ func _ready():
 	pass
 
 func _physics_process(delta):
-	if hitted_time > 0:
+	if !dead and hitted_time > 0:
 		hitted_hide -= 1 * delta
 		if hitted_hide <= 0:
 			hitted_hide = 0.1
@@ -52,7 +53,15 @@ func _physics_process(delta):
 			fake_stomp = 1.5
 		air_timer = 0
 	
-	if fake_stomp > 0:
+	if dead:
+		$player_sprite.visible = true
+		hitted_time = 0
+		$player_sprite.play("dead")
+		if $player_sprite.frame == 2:
+			$player_sprite.playing = false
+		vspeed.y += gravity
+		vspeed = move_and_slide(vspeed, Vector2.UP)
+	elif fake_stomp > 0:
 		fake_stomp -= 1 * delta
 		$player_sprite.animation = "stomp"
 	
@@ -232,6 +241,8 @@ func Stomp():
 func hitted(value):
 	hitted_time = 3
 	Global.PlayerHit(value)
+	if Global.LIFE <= 0:
+		dead = true
 
 func ReverseJump(delta):
 	Jump()
