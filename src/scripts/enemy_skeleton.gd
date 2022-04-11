@@ -9,7 +9,7 @@ var revive = false
 var dead = false
 var dead_counter = 0
 var agro = 250
-var attack_agro = 250
+var attack_agro = 300
 var jumping = false
 var jump_speed = 250
 var jump_ttl_total = 3
@@ -18,14 +18,14 @@ var attacked = false
 var bone_scn = preload("res://scenes/skeleton_bone.tscn")
 var really_dead = false
 var alpha = 1
-export var _speed = 30
+export var _speed = 60
 
 func _ready():
 	player = get_parent().get_node("player")
 
 func die():
 	dead = true
-	dead_counter = 8
+	dead_counter = 5
 	$sprite.animation = "skeleton_die"
 	$collider.set_deferred("disabled", true)
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://sprites/wall_spr_0.png" type="Texture" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://scenes/enemy_skeleton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/enemy_knight_shield.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/enemy_knight.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/Popup2.tscn" type="PackedScene" id=10]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 16, 15.9362, 0.00997543, 15.9362, 0, 0.00997543, 16, 0.00997543 )
@@ -88,6 +89,8 @@ margin_right = 41.0
 [node name="ui" parent="CanvasLayer" instance=ExtResource( 5 )]
 margin_left = 1.0
 margin_right = 1.0
+
+[node name="Popup2" parent="CanvasLayer" instance=ExtResource( 10 )]
 
 [node name="knight2" parent="." instance=ExtResource( 9 )]
 position = Vector2( -191, 93 )

@@ -7,6 +7,7 @@ var action = ""
 var timer = 0
 var parent = null
 var flag_direction = ""
+var sparks_scn = preload("res://scenes/sparks.tscn")
 export var _speed = 2300
 
 func init(_face, _mode, _parent, _flag_direction):
@@ -16,6 +17,7 @@ func init(_face, _mode, _parent, _flag_direction):
 	timer = 0.3
 	face = _face
 	mode = _mode
+	$sprite.animation = mode
 	InitialPos = position
 	if flag_direction == "up":
 		rotation_degrees = 270
@@ -82,6 +84,10 @@ func _physics_process(delta):
 
 func _on_area_body_entered(body):
 	if "me_name" in body:
+		var sparks = sparks_scn.instance()
+		get_parent().add_child(sparks)
+		sparks.set_position(position)	
+		
 		if body.me_name == "SKELETON":
 			body.die()
 		elif body.me_name == "KNIGHT" or body.me_name == "KNIGHT_SHIELD":
