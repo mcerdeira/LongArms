@@ -19,6 +19,8 @@ var attack_agro = 30
 var agro = 300
 var agresive = false
 var stop_agresive = 0
+var check_position_total = 0.8
+var check_position = check_position_total
 export var _speed = 10
 
 func _ready():
@@ -81,16 +83,20 @@ func _physics_process(delta):
 			pre_attack = pre_attack_total + stun_time
 			$sprite.animation = "knight"
 			$sprite.playing = true
-			if position.x > player.position.x:
-				if face == -1:
-					vspeed = Vector2.ZERO
-					face = 1
-					_scale_all(face)
-			else:
-				if face == 1:
-					vspeed = Vector2.ZERO
-					face = -1
-					_scale_all(face)
+			
+			check_position -= 1 * delta
+			if check_position <= 0:
+				check_position = check_position_total
+				if position.x > player.position.x:
+					if face == -1:
+						vspeed = Vector2.ZERO
+						face = 1
+						_scale_all(face)
+				else:
+					if face == 1:
+						vspeed = Vector2.ZERO
+						face = -1
+						_scale_all(face)
 			
 			var agr = 0 
 			if agresive:

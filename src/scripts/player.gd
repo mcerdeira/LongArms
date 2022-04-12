@@ -5,13 +5,13 @@ var vspeed = Vector2.ZERO
 var fist = null
 var fist_scn = preload("res://scenes/fist.tscn")
 var burst_scn = preload("res://scenes/burst.tscn")
+var sparks_scn = preload("res://scenes/sparks.tscn")
 var face = 1
 var fist_initial = Vector2.ZERO
 var air_timer = 0
 var hitted_time = 0
 var hitted_hide = 0
 var dead = false
-
 var hook_equiped = true
 
 var goto_hoook = false
@@ -289,3 +289,11 @@ func _detach_fist():
 func _draw():
 	if fist:
 		draw_line(fist_initial, to_local(fist.position),  Color(255, 255, 255), 1)
+
+func _on_Area2D_body_entered(body):
+	if "me_name" in body:
+		var sparks = sparks_scn.instance()
+		get_parent().add_child(sparks)
+		var pos = Vector2(position.x, position.y + 20)
+		sparks.set_position(pos)
+		ReverseJump(0.01)

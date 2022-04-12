@@ -17,6 +17,8 @@ var hit_points = 5
 var life = 5
 var agro = 150
 var attack_agro = 80
+var check_position_total = 1.2
+var check_position = check_position_total
 export var _speed = 10
 
 func _ready():
@@ -83,18 +85,22 @@ func _physics_process(delta):
 			pre_attack = pre_attack_total + stun_time
 			$sprite.animation = "knight_shield"
 			$sprite.playing = true
-			if position.x > player.position.x:
-				if face == -1:
-					vspeed = Vector2.ZERO
-					face = 1
-					$sprite.set_scale(Vector2(face, 1))
-					$attack_area.set_scale($sprite.scale)
-			else:
-				if face == 1:
-					vspeed = Vector2.ZERO
-					face = -1
-					$sprite.set_scale(Vector2(face, 1))
-					$attack_area.set_scale($sprite.scale)
+			
+			check_position -= 1 * delta
+			if check_position <= 0:
+				check_position = check_position_total
+				if position.x > player.position.x:
+					if face == -1:
+						vspeed = Vector2.ZERO
+						face = 1
+						$sprite.set_scale(Vector2(face, 1))
+						$attack_area.set_scale($sprite.scale)
+				else:
+					if face == 1:
+						vspeed = Vector2.ZERO
+						face = -1
+						$sprite.set_scale(Vector2(face, 1))
+						$attack_area.set_scale($sprite.scale)
 					
 			position.x += (_speed * delta) * (face * -1)
 

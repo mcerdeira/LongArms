@@ -18,6 +18,8 @@ var attacked = false
 var bone_scn = preload("res://scenes/skeleton_bone.tscn")
 var really_dead = false
 var alpha = 1
+var check_position_total = 0.8
+var check_position = check_position_total
 export var _speed = 60
 
 func _ready():
@@ -87,16 +89,19 @@ func _physics_process(delta):
 				attacked = false
 				jumping = true
 		
-		if position.x > player.position.x:
-			if face == -1:
-				face = 1
-				$sprite.scale = (Vector2(face, 1))
-				vspeed = Vector2.ZERO
-		else:
-			if face == 1:
-				face = -1
-				$sprite.scale = (Vector2(face, 1))
-				vspeed = Vector2.ZERO
+		check_position -= 1 * delta
+		if check_position <= 0:
+			check_position = check_position_total
+			if position.x > player.position.x:
+				if face == -1:
+					face = 1
+					$sprite.scale = (Vector2(face, 1))
+					vspeed = Vector2.ZERO
+			else:
+				if face == 1:
+					face = -1
+					$sprite.scale = (Vector2(face, 1))
+					vspeed = Vector2.ZERO
 			
 		position.x += (_speed * delta) * (face * -1)
 		vspeed.y += gravity

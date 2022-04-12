@@ -4,6 +4,7 @@ var TOTAL_MANA = 0.0
 var MANA_COST = 0.0
 var LIFE = 0.0
 var TOTAL_LIFE = 0.0
+var LAST_CHECKPOINT = null
 
 func _ready():
 	TOTAL_MANA = 12.0
