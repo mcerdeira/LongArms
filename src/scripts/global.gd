@@ -7,6 +7,9 @@ var TOTAL_LIFE = 0.0
 var LAST_CHECKPOINT = null
 
 func _ready():
+	initialize()
+
+func initialize():
 	TOTAL_MANA = 12.0
 	MANA_COST = 4.0
 	MANA = TOTAL_MANA

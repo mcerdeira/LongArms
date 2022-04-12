@@ -30,7 +30,8 @@ export var jumping = false
 export var stomping = 0
 
 func _ready():
-	pass
+	if Global.LAST_CHECKPOINT != null:
+		position = Global.LAST_CHECKPOINT
 
 func _physics_process(delta):
 	if !dead and hitted_time > 0:
